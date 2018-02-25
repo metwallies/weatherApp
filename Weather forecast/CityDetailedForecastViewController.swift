@@ -35,7 +35,7 @@ class CityDetailedForecastViewController: UIViewController {
             self.selectedCity.filterWeather()
             
         }) { (error) in
-            
+            //TODO: handle error.
         }
     }
     
