@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class HomeViewController: UIViewController {
 
@@ -15,22 +16,67 @@ class HomeViewController: UIViewController {
     var arrayFavoriteCities = [City]()
     var arraySearchCities = [City]()
     let minimumSearchText = 3
+    let londonID = 2643741
+    var locationManager = CLLocationManager()
+    var userCity = City()
+    var userLocation = CLLocation()
     @IBOutlet weak var searchBarCities: UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+        self.tableViewFavoriteCities.tableFooterView = UIView()
         //TODO: load data offline
     }
 
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
     //MARK: Internal
-    func requestCities() {
-        
-        //TODO: load data online
+    func requestWeather(cityID : Int) {
+        CityManager.getWeatherFor(cityID: cityID, isWeather: true, success: {[unowned self] (json) in
+            let weatherJson = json[0]
+            let weather = Weather(with: weatherJson)
+            self.userCity.weather.append(weather)
+            self.arrayFavoriteCities.append(self.userCity)
+            self.tableViewFavoriteCities.reloadData()
+        }) {[unowned self] (error) in
+            self.showError(message: error)
+        }
+    }
+    
+}
+
+extension HomeViewController : CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        userLocation = locations.last!
+        userCity = CityManager.getCitiesFromLocalJson(by: userLocation)
+        requestWeather(cityID: userCity.cityID)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+                switch CLLocationManager.authorizationStatus() {
+                case .authorizedAlways:
+                    locationManager.startUpdatingLocation()
+                    break
+                case .authorizedWhenInUse :
+                    locationManager.startUpdatingLocation()
+                    break
+                default:
+                    let london = City()
+                    london.cityID =  2643741
+                    london.cityName = "City of London"
+                    london.cityCountry = "GB"
+                    userCity = london
+                    requestWeather(cityID: londonID)
+                    break
+                }
     }
 }
 
@@ -72,8 +118,9 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             return cell!
         }
         else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "search cell")
-            return cell!
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! HomeCitiesTableViewCell
+            cell.setCellWithCity(city: arrayFavoriteCities[indexPath.row])
+            return cell
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -88,3 +135,4 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         self.show(detailsVC, sender: self)
     }
 }
+

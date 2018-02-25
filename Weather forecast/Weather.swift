@@ -10,7 +10,7 @@ import UIKit
 
 class Weather: NSObject {
 
-    var date = ""
+    var date : String?
     var minDegree = 0.0
     var maxDegree = 0.0
     var weatherDescription = ""
@@ -20,14 +20,17 @@ class Weather: NSObject {
     }
     
     init(with json : [String : Any]) {
-        let tempDate = json["dt_txt"] as! String
-        let index = tempDate.index(tempDate.startIndex, offsetBy: 10)
-        date = "\(tempDate[..<index])"
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let dateFromDate = dateFormatter.date(from: date)
-        dateFormatter.dateFormat = "EEE, dd MM yyyy"
-        date = dateFormatter.string(from: dateFromDate!)
+        date = json["dt_txt"] as? String
+        if date != nil {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            var dateFromDate = Date()
+            if date != nil {
+                dateFromDate = dateFormatter.date(from: date!)!
+            }
+            dateFormatter.dateFormat = "EEE, dd MM yyyy"
+            date = dateFormatter.string(from: dateFromDate)
+        }
         let main = json["main"] as! [String : Any]
         minDegree = main["temp_min"] as! Double
         maxDegree = main["temp_max"] as! Double

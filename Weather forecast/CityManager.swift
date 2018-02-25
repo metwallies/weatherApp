@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class CityManager: NSObject {
 
@@ -15,8 +16,19 @@ class CityManager: NSObject {
     
     static func getForecastFor(cityID : Int, success : @escaping SuccessHandler , failure : @escaping FailureHandler) {
         
+        getWeatherFor(cityID: cityID, isWeather: false, success: success, failure: failure)
+    }
+    
+    static func getWeatherFor(cityID : Int, isWeather : Bool, success : @escaping SuccessHandler , failure : @escaping FailureHandler) {
+        
         let APIKey = "f435bd228edc1bf4e4009e5fc7d3e621"
-        let urlString = "http://api.openweathermap.org/data/2.5/forecast?id=\(cityID)&APPID=" + APIKey
+        var urlString = ""
+        if !isWeather {
+             urlString = "http://api.openweathermap.org/data/2.5/forecast?id=\(cityID)&APPID=" + APIKey
+        }
+        else {
+            urlString = "http://api.openweathermap.org/data/2.5/weather?id=\(cityID)&APPID=" + APIKey
+        }
         let url = URL.init(string: urlString)
         let urlRequest = URLRequest(url: url!)
         let session = URLSession.shared
@@ -25,15 +37,22 @@ class CityManager: NSObject {
             if error == nil {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : Any]
-                    
-                    success(json["list"] as! [[String : Any]])
+                    DispatchQueue.main.async {
+                        if !isWeather {
+                            success(json["list"] as! [[String : Any]])
+                        }
+                        else {
+                            success([json])
+                        }
+                    }
                 }
                 catch {
-                    
                 }
             }
             else {
-                failure((error?.localizedDescription)!)
+                DispatchQueue.main.async {
+                    failure((error?.localizedDescription)!)
+                }
             }
         }
         task.resume()
@@ -44,6 +63,29 @@ class CityManager: NSObject {
         let citiesJson = CityManager.readJson()
         let cities = parsedCities(citiesJson: citiesJson)
         return filterCitiesWith(cityName: cityName, cities: cities)
+    }
+    
+    static func getCitiesFromLocalJson(by cityLocation : CLLocation) -> City{
+        let citiesJson = CityManager.readJson()
+        let cities = parsedCities(citiesJson: citiesJson)
+        for city in cities {
+            if city.cityCoord.lat == cityLocation.coordinate.latitude && city.cityCoord.lon == cityLocation.coordinate.longitude {
+                return city
+            }
+        }
+        let london = City()
+        /*
+         "id": 2643741,
+         "name": "City of London",
+         "country": "GB",
+         "coord": {
+         "lon": -0.09184,
+         "lat": 51.512791
+         }*/
+        london.cityID =  2643741
+        london.cityName = "City of London"
+        london.cityCountry = "GB"
+        return london
     }
     
     private static func filterCitiesWith(cityName : String, cities : [City]) -> [City] {
