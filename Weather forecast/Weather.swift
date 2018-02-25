@@ -23,9 +23,16 @@ class Weather: NSObject {
         let tempDate = json["dt_txt"] as! String
         let index = tempDate.index(tempDate.startIndex, offsetBy: 10)
         date = "\(tempDate[..<index])"
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let dateFromDate = dateFormatter.date(from: date)
+        dateFormatter.dateFormat = "EEE, dd MM yyyy"
+        date = dateFormatter.string(from: dateFromDate!)
         let main = json["main"] as! [String : Any]
         minDegree = main["temp_min"] as! Double
         maxDegree = main["temp_max"] as! Double
+        minDegree = (minDegree - 273.15)
+        maxDegree = (maxDegree - 273.15)
         let weather = json["weather"] as! [[String : Any]]
         weatherDescription = weather[0]["description"] as! String
     }

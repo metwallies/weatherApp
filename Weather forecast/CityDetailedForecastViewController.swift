@@ -19,6 +19,7 @@ class CityDetailedForecastViewController: UIViewController {
         self.labelCityName.text = selectedCity.cityName
         self.labelCountryName.text = selectedCity.cityCountry
         getForecast()
+        tableViewForecast.tableFooterView = UIView()
     }
 
     override func didReceiveMemoryWarning() {
@@ -33,7 +34,10 @@ class CityDetailedForecastViewController: UIViewController {
                 self.selectedCity.weather.append(weather)
             }
             self.selectedCity.filterWeather()
-            
+            DispatchQueue.main.async {
+                
+                self.tableViewForecast.reloadData()
+            }
         }) { (error) in
             //TODO: handle error.
         }
@@ -41,5 +45,24 @@ class CityDetailedForecastViewController: UIViewController {
     
     @IBAction func backButtonDidTouchUpInside(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
+    }
+}
+
+extension CityDetailedForecastViewController : UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! WeatherTableViewCell
+        
+        cell.setupCell(with: selectedCity.weather[indexPath.row])
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return selectedCity.weather.count
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
