@@ -14,7 +14,6 @@ class Weather: NSObject {
     var minDegree = 0.0
     var maxDegree = 0.0
     var weatherDescription = ""
-    var cityID = 0
     
     override init() {
         super.init()
@@ -39,6 +38,5 @@ class Weather: NSObject {
         maxDegree = (maxDegree - 273.15)
         let weather = json["weather"] as! [[String : Any]]
         weatherDescription = weather[0]["description"] as! String
-        cityID = json["id"]
     }
 }
