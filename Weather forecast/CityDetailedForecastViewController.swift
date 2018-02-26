@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RealmSwift
 
 class CityDetailedForecastViewController: UIViewController {
 
@@ -45,6 +46,13 @@ class CityDetailedForecastViewController: UIViewController {
     
     @IBAction func backButtonDidTouchUpInside(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
+    }
+    @IBAction func addCityToFavorite(_ sender: Any) {
+        let realm = try! Realm()
+        let city = selectedCity
+        try! realm.write {
+            realm.add(city)
+        }
     }
 }
 

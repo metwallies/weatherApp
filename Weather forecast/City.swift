@@ -7,7 +7,8 @@
 //
 
 import UIKit
-
+import RealmSwift
+import Realm
 /*
  {
  "id": 707860,
@@ -20,11 +21,11 @@ import UIKit
  }
  */
 
-class City: NSObject {
+class City: Object {
 
-    var cityID : Int = 0
-    var cityName : String = ""
-    var cityCountry : String = ""
+    @objc dynamic var cityID : Int = 0
+    @objc dynamic var cityName : String = ""
+    @objc dynamic var cityCountry : String = ""
     
     struct Coord {
         var lon : Double = 0.0
@@ -33,17 +34,30 @@ class City: NSObject {
     var cityCoord : Coord = Coord(lon: 0, lat: 0)
     var weather = [Weather]()
     
-    override init() {
+    required init() {
         super.init()
     }
     
     init(with json : [String : Any]) {
+        super.init()
         cityID = json["id"] as! Int
         cityName = json["name"] as! String
         cityCountry = json["country"] as! String
         let coord = json["coord"] as! [String : Any]
         cityCoord.lon = coord["lon"] as! Double
         cityCoord.lat = coord["lat"] as! Double
+    }
+    
+    required init(value: Any, schema: RLMSchema) {
+        super.init(value: value, schema: schema)
+        
+        print(value)
+    }
+    
+    required init(realm: RLMRealm, schema: RLMObjectSchema) {
+        super.init(realm: realm, schema: schema)
+        
+        print(schema)
     }
     
     func filterWeather() {

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hkE-rY-LmQ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hkE-rY-LmQ">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -40,7 +40,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JTu-jP-tnz">
-                                                    <rect key="frame" x="16" y="16" width="343" height="11.5"/>
+                                                    <rect key="frame" x="23" y="19" width="329" height="6"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="22"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -230,7 +230,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lq9-9P-M05">
-                                        <rect key="frame" x="16" y="15.5" width="41" height="33"/>
+                                        <rect key="frame" x="16" y="25.5" width="41" height="33"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
                                         <state key="normal" title="Back">
                                             <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -239,15 +239,19 @@
                                             <action selector="backButtonDidTouchUpInside:" destination="f62-Kh-FY6" eventType="touchUpInside" id="4WP-ph-Alk"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d7d-Zf-8lM">
-                                        <rect key="frame" x="333" y="21" width="22" height="22"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d7d-Zf-8lM">
+                                        <rect key="frame" x="333" y="31" width="22" height="22"/>
+                                        <connections>
+                                            <action selector="addCityToFavorite:" destination="f62-Kh-FY6" eventType="touchUpInside" id="7rb-Ho-PD5"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="d7d-Zf-8lM" firstAttribute="centerY" secondItem="lq9-9P-M05" secondAttribute="centerY" id="A7t-he-usR"/>
                                     <constraint firstItem="lq9-9P-M05" firstAttribute="leading" secondItem="WoM-MI-1iY" secondAttribute="leading" constant="16" id="TjH-ck-3qB"/>
-                                    <constraint firstItem="lq9-9P-M05" firstAttribute="centerY" secondItem="WoM-MI-1iY" secondAttribute="centerY" id="mLS-Er-GrC"/>
+                                    <constraint firstItem="lq9-9P-M05" firstAttribute="centerY" secondItem="WoM-MI-1iY" secondAttribute="centerY" constant="10" id="mLS-Er-GrC"/>
+                                    <constraint firstAttribute="trailing" secondItem="d7d-Zf-8lM" secondAttribute="trailing" constant="20" id="nJv-VX-apt"/>
                                     <constraint firstAttribute="height" constant="64" id="t8w-S4-dFW"/>
                                 </constraints>
                             </view>

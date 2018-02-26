@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import RealmSwift
 
 class HomeViewController: UIViewController {
 
@@ -30,6 +31,10 @@ class HomeViewController: UIViewController {
         locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
         self.tableViewFavoriteCities.tableFooterView = UIView()
         //TODO: load data offline
+        
+        let realm = try! Realm()
+        let realmCity = realm.objects(City.self)
+        print(realmCity)
     }
 
     
@@ -92,13 +97,15 @@ extension HomeViewController: UISearchBarDelegate {
                 }
             }
         }
+        else if searchText == "" {
+            tableViewSearchCities.isHidden = true
+            searchBar.resignFirstResponder()
+            arraySearchCities.removeAll()
+            tableViewSearchCities.reloadData()
+        }
     }
     
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        tableViewSearchCities.isHidden = true
-        arraySearchCities.removeAll()
-        tableViewSearchCities.reloadData()
-    }
+    
 }
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {

@@ -12,7 +12,6 @@
 		DFD039502042C2850070D00D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD0394F2042C2850070D00D /* AppDelegate.swift */; };
 		DFD039522042C2850070D00D /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD039512042C2850070D00D /* HomeViewController.swift */; };
 		DFD039552042C2850070D00D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DFD039532042C2850070D00D /* Main.storyboard */; };
-		DFD039582042C2850070D00D /* Weather_forecast.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DFD039562042C2850070D00D /* Weather_forecast.xcdatamodeld */; };
 		DFD0395A2042C2850070D00D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DFD039592042C2850070D00D /* Assets.xcassets */; };
 		DFD0395D2042C2850070D00D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DFD0395B2042C2850070D00D /* LaunchScreen.storyboard */; };
 		DFD039682042C2850070D00D /* Weather_forecastTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD039672042C2850070D00D /* Weather_forecastTests.swift */; };
@@ -46,7 +45,6 @@
 		DFD0394F2042C2850070D00D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DFD039512042C2850070D00D /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		DFD039542042C2850070D00D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		DFD039572042C2850070D00D /* Weather_forecast.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Weather_forecast.xcdatamodel; sourceTree = "<group>"; };
 		DFD039592042C2850070D00D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DFD0395C2042C2850070D00D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DFD0395E2042C2850070D00D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -140,7 +138,6 @@
 				DFD039592042C2850070D00D /* Assets.xcassets */,
 				DFD0395B2042C2850070D00D /* LaunchScreen.storyboard */,
 				DFD0395E2042C2850070D00D /* Info.plist */,
-				DFD039562042C2850070D00D /* Weather_forecast.xcdatamodeld */,
 				DFD039762042C9800070D00D /* city.json */,
 			);
 			path = "Weather forecast";
@@ -318,9 +315,14 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Weather forecastTests/Pods-Weather forecastTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -348,9 +350,14 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Weather forecast/Pods-Weather forecast-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
+				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -368,7 +375,6 @@
 				DFEA56222043492B0040B2C8 /* HomeCitiesTableViewCell.swift in Sources */,
 				DF535A6A2043183E00F10DCF /* WeatherTableViewCell.swift in Sources */,
 				DFD039522042C2850070D00D /* HomeViewController.swift in Sources */,
-				DFD039582042C2850070D00D /* Weather_forecast.xcdatamodeld in Sources */,
 				DFD039752042C6480070D00D /* CityManager.swift in Sources */,
 				DFD039732042C4A50070D00D /* City.swift in Sources */,
 				DFD039792042DF240070D00D /* CityDetailedForecastViewController.swift in Sources */,
@@ -617,19 +623,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		DFD039562042C2850070D00D /* Weather_forecast.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				DFD039572042C2850070D00D /* Weather_forecast.xcdatamodel */,
-			);
-			currentVersion = DFD039572042C2850070D00D /* Weather_forecast.xcdatamodel */;
-			path = Weather_forecast.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = DFD039442042C2850070D00D /* Project object */;
 }
