@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DF10D709204412D10015A7AB /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF10D708204412D10015A7AB /* CoreDataManager.swift */; };
 		DF535A6A2043183E00F10DCF /* WeatherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF535A692043183E00F10DCF /* WeatherTableViewCell.swift */; };
 		DFD039502042C2850070D00D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD0394F2042C2850070D00D /* AppDelegate.swift */; };
 		DFD039522042C2850070D00D /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD039512042C2850070D00D /* HomeViewController.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DF10D708204412D10015A7AB /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		DF535A692043183E00F10DCF /* WeatherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTableViewCell.swift; sourceTree = "<group>"; };
 		DFD0394C2042C2850070D00D /* Weather forecast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Weather forecast.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFD0394F2042C2850070D00D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 				DF535A692043183E00F10DCF /* WeatherTableViewCell.swift */,
 				DFEA56212043492B0040B2C8 /* HomeCitiesTableViewCell.swift */,
 				DFEA561F204344720040B2C8 /* UIViewController+Alert.swift */,
+				DF10D708204412D10015A7AB /* CoreDataManager.swift */,
 				DFD039532042C2850070D00D /* Main.storyboard */,
 				DFD039592042C2850070D00D /* Assets.xcassets */,
 				DFD0395B2042C2850070D00D /* LaunchScreen.storyboard */,
@@ -237,6 +240,7 @@
 				DFD039792042DF240070D00D /* CityDetailedForecastViewController.swift in Sources */,
 				DFD039502042C2850070D00D /* AppDelegate.swift in Sources */,
 				DFD0397C2042EAAC0070D00D /* Weather.swift in Sources */,
+				DF10D709204412D10015A7AB /* CoreDataManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
