@@ -22,6 +22,7 @@ class HomeViewController: UIViewController {
     var userCity = City()
     var userLocation = CLLocation()
     var isUserLocationUpdated = false
+    var detailsVC : CityDetailedForecastViewController!
     @IBOutlet weak var searchBarCities: UISearchBar!
     
     override func viewDidLoad() {
@@ -84,8 +85,8 @@ class HomeViewController: UIViewController {
             self.userCity.weather = weather
             self.arrayFavoriteCities.append(self.userCity)
             let realm = try! Realm()
-            realm.write {
-                realm.add(userCity)
+            try! realm.write {
+                realm.add(self.userCity)
                 realm.add(weather)
             }
             self.tableViewFavoriteCities.reloadData()
@@ -151,7 +152,7 @@ extension HomeViewController: UISearchBarDelegate {
     
 }
 
-extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
+extension HomeViewController: UITableViewDelegate, UITableViewDataSource, CityDetailForecastDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == tableViewFavoriteCities {
             return arrayFavoriteCities.count
@@ -178,7 +179,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let detailsVC = self.storyboard?.instantiateViewController(withIdentifier: "details") as! CityDetailedForecastViewController
+        detailsVC = self.storyboard?.instantiateViewController(withIdentifier: "details") as! CityDetailedForecastViewController
+        detailsVC.delegate = self
         if tableView == tableViewSearchCities {
             detailsVC.selectedCity = arraySearchCities[indexPath.row]
             for tempCity in arrayFavoriteCities {
@@ -192,6 +194,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             detailsVC.isCityFavored = true
         }
         self.show(detailsVC, sender: self)
+    }
+    
+    func didAddCityToFavorites(_ city: City) {
+        arrayFavoriteCities.append(city)
+        tableViewFavoriteCities.reloadData()
     }
 }
 

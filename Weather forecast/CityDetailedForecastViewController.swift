@@ -9,12 +9,17 @@
 import UIKit
 import RealmSwift
 
+protocol CityDetailForecastDelegate: AnyObject {
+    func didAddCityToFavorites(_ city : City)
+}
+
 class CityDetailedForecastViewController: UIViewController {
 
     @IBOutlet weak var labelCityName: UILabel!
     @IBOutlet weak var labelCountryName: UILabel!
     @IBOutlet weak var tableViewForecast: UITableView!
     @IBOutlet weak var addToFavoritesButton: UIButton!
+    weak var delegate : CityDetailForecastDelegate?
     var selectedCity = City()
     var isCityFavored = false
     override func viewDidLoad() {
@@ -61,6 +66,9 @@ class CityDetailedForecastViewController: UIViewController {
             realm.add(city)
             realm.add(city.forecast)
             realm.add(city.weather)
+        }
+        if delegate != nil {
+            delegate?.didAddCityToFavorites(selectedCity)
         }
     }
 }
