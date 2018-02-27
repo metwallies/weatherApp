@@ -39,7 +39,7 @@ class CityManager: NSObject {
                     let json = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : Any]
                     DispatchQueue.main.async {
                         if !isWeather {
-                            success(json["list"] as! [[String : Any]])
+                            success([json])
                         }
                         else {
                             success([json])
@@ -74,14 +74,6 @@ class CityManager: NSObject {
             }
         }
         let london = City()
-        /*
-         "id": 2643741,
-         "name": "City of London",
-         "country": "GB",
-         "coord": {
-         "lon": -0.09184,
-         "lat": 51.512791
-         }*/
         london.cityID =  2643741
         london.cityName = "City of London"
         london.cityCountry = "GB"

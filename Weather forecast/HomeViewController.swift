@@ -21,6 +21,7 @@ class HomeViewController: UIViewController {
     var locationManager = CLLocationManager()
     var userCity = City()
     var userLocation = CLLocation()
+    var isUserLocationUpdated = false
     @IBOutlet weak var searchBarCities: UISearchBar!
     
     override func viewDidLoad() {
@@ -31,10 +32,42 @@ class HomeViewController: UIViewController {
         locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
         self.tableViewFavoriteCities.tableFooterView = UIView()
         //TODO: load data offline
-        
+        attachWeatherToCity()
+    }
+    
+    private func attachWeatherToCity() {
         let realm = try! Realm()
         let realmCity = realm.objects(City.self)
-        print(realmCity)
+        let realmForecast = realm.objects(Weather.self)
+        
+        for city in realmCity {
+            var weatherFound = false
+            for weather in realmForecast {
+                if weather.cityID == city.cityID {
+                    if weather.date != nil {
+                        city.forecast.append(weather)
+                    }
+                    else {
+                        city.weather = weather
+                        weatherFound = true
+                        arrayFavoriteCities.append(city)
+                    }
+                }
+            }
+            if !weatherFound {
+                CityManager.getWeatherFor(cityID: city.cityID, isWeather: true, success: { (json) in
+                    city.weather = Weather(with: json[0])
+                    try! realm.write {
+                        realm.add(city.weather)
+                    }
+                    self.arrayFavoriteCities.append(city)
+                    self.tableViewFavoriteCities.reloadData()
+                }, failure: { (error) in
+                    self.showError(message: error)
+                })
+            }
+        }
+        tableViewFavoriteCities.reloadData()
     }
 
     
@@ -48,7 +81,7 @@ class HomeViewController: UIViewController {
         CityManager.getWeatherFor(cityID: cityID, isWeather: true, success: {[unowned self] (json) in
             let weatherJson = json[0]
             let weather = Weather(with: weatherJson)
-            self.userCity.weather.append(weather)
+            self.userCity.weather = weather
             self.arrayFavoriteCities.append(self.userCity)
             self.tableViewFavoriteCities.reloadData()
         }) {[unowned self] (error) in
@@ -60,9 +93,13 @@ class HomeViewController: UIViewController {
 
 extension HomeViewController : CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        userLocation = locations.last!
-        userCity = CityManager.getCitiesFromLocalJson(by: userLocation)
-        requestWeather(cityID: userCity.cityID)
+        
+        if !isUserLocationUpdated {
+            isUserLocationUpdated = true
+            userLocation = locations.last!
+            userCity = CityManager.getCitiesFromLocalJson(by: userLocation)
+            requestWeather(cityID: userCity.cityID)
+        }
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
@@ -87,10 +124,11 @@ extension HomeViewController : CLLocationManagerDelegate {
 
 extension HomeViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        tableViewSearchCities.isHidden = false
+        
         let cityName = searchBar.text
         if (cityName?.count)! > minimumSearchText {
-            DispatchQueue.global().async {
+            tableViewSearchCities.isHidden = false
+            DispatchQueue.global(qos: .userInitiated).async {
                 self.arraySearchCities = CityManager.getCitiesFromLocalJson(cityName: cityName!)
                 DispatchQueue.main.async {
                     self.tableViewSearchCities.reloadData()
@@ -120,8 +158,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         if tableView == tableViewSearchCities {
             let cell = tableView.dequeueReusableCell(withIdentifier: "search cell")
-            cell?.textLabel?.text = arraySearchCities[indexPath.row].cityName
-            cell?.detailTextLabel?.text = arraySearchCities[indexPath.row].cityCountry
+            if arraySearchCities.count > indexPath.row {
+                let tempCity = arraySearchCities[indexPath.row]
+                cell?.textLabel?.text = tempCity.cityName
+                cell?.detailTextLabel?.text = tempCity.cityCountry
+            }
             return cell!
         }
         else {
@@ -135,9 +176,15 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         let detailsVC = self.storyboard?.instantiateViewController(withIdentifier: "details") as! CityDetailedForecastViewController
         if tableView == tableViewSearchCities {
             detailsVC.selectedCity = arraySearchCities[indexPath.row]
+            for tempCity in arrayFavoriteCities {
+                if arraySearchCities[indexPath.row].cityID == tempCity.cityID {
+                    detailsVC.isCityFavored = true
+                }
+            }
         }
         else {
             detailsVC.selectedCity = arrayFavoriteCities[indexPath.row]
+            detailsVC.isCityFavored = true
         }
         self.show(detailsVC, sender: self)
     }

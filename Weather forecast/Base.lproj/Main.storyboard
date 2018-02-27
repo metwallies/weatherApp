@@ -36,7 +36,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lIo-A2-dGJ" id="UHj-HQ-eO2">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JTu-jP-tnz">
@@ -45,10 +45,18 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pFm-fl-Drw">
+                                                    <rect key="frame" x="308.5" y="13" width="31.5" height="17"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="14"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="pFm-fl-Drw" firstAttribute="centerY" secondItem="JTu-jP-tnz" secondAttribute="centerY" id="Djj-qP-iz8"/>
                                                 <constraint firstAttribute="bottomMargin" secondItem="JTu-jP-tnz" secondAttribute="bottom" constant="8" id="NOZ-wK-Ju1"/>
                                                 <constraint firstItem="JTu-jP-tnz" firstAttribute="top" secondItem="UHj-HQ-eO2" secondAttribute="topMargin" constant="8" id="dyh-w7-Oxh"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="pFm-fl-Drw" secondAttribute="trailing" constant="20" id="ftH-PI-jRW"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="JTu-jP-tnz" secondAttribute="trailing" constant="8" id="l9m-Hi-g5l"/>
                                                 <constraint firstItem="JTu-jP-tnz" firstAttribute="centerY" secondItem="UHj-HQ-eO2" secondAttribute="centerY" id="ugu-vP-Mtf"/>
                                                 <constraint firstItem="JTu-jP-tnz" firstAttribute="leading" secondItem="UHj-HQ-eO2" secondAttribute="leadingMargin" constant="8" id="xxx-ue-PRf"/>
@@ -56,6 +64,7 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="labelCityName" destination="JTu-jP-tnz" id="3id-sy-5sF"/>
+                                            <outlet property="tempDegree" destination="pFm-fl-Drw" id="zTN-hJ-5d0"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -72,18 +81,18 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kcP-sF-UhN" id="wYz-LT-yMP">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hro-0V-Wrx">
-                                                    <rect key="frame" x="15" y="5" width="33.5" height="20.5"/>
+                                                    <rect key="frame" x="15" y="5" width="33" height="20"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pzz-eV-5q6">
-                                                    <rect key="frame" x="15" y="25.5" width="44" height="14.5"/>
+                                                    <rect key="frame" x="15" y="25" width="44" height="15"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <nil key="textColor"/>
@@ -171,7 +180,7 @@
                                         <rect key="frame" x="0.0" y="28" width="343" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hYP-9g-Edl" id="k60-Hz-hM4">
-                                            <rect key="frame" x="0.0" y="0.0" width="343" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ugj-4C-ZgF">
@@ -273,6 +282,7 @@
                         <viewLayoutGuide key="safeArea" id="eRW-lE-hU1"/>
                     </view>
                     <connections>
+                        <outlet property="addToFavoritesButton" destination="d7d-Zf-8lM" id="VvT-QW-Wv6"/>
                         <outlet property="labelCityName" destination="0SO-CS-FuL" id="u3i-li-yQk"/>
                         <outlet property="labelCountryName" destination="Doj-4U-wI5" id="yof-vB-abe"/>
                         <outlet property="tableViewForecast" destination="J39-nq-UoM" id="fHH-Bi-ihE"/>

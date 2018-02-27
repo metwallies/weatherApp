@@ -14,13 +14,17 @@ class CityDetailedForecastViewController: UIViewController {
     @IBOutlet weak var labelCityName: UILabel!
     @IBOutlet weak var labelCountryName: UILabel!
     @IBOutlet weak var tableViewForecast: UITableView!
+    @IBOutlet weak var addToFavoritesButton: UIButton!
     var selectedCity = City()
+    var isCityFavored = false
     override func viewDidLoad() {
         super.viewDidLoad()
         self.labelCityName.text = selectedCity.cityName
         self.labelCountryName.text = selectedCity.cityCountry
         getForecast()
         tableViewForecast.tableFooterView = UIView()
+        
+        addToFavoritesButton.isHidden = isCityFavored
     }
 
     override func didReceiveMemoryWarning() {
@@ -30,9 +34,12 @@ class CityDetailedForecastViewController: UIViewController {
     
     func getForecast() {
         CityManager.getForecastFor(cityID: selectedCity.cityID, success: { (json) in
-            for dict in json {
+            let list = json[0]["list"] as! [[String : Any]]
+            for dict in list {
                 let weather = Weather(with: dict)
-                self.selectedCity.weather.append(weather)
+                let cityJson = json[0]["city"] as! [String : Any]
+                weather.cityID = cityJson["id"] as! Int
+                self.selectedCity.forecast.append(weather)
             }
             self.selectedCity.filterWeather()
             DispatchQueue.main.async {
@@ -52,6 +59,8 @@ class CityDetailedForecastViewController: UIViewController {
         let city = selectedCity
         try! realm.write {
             realm.add(city)
+            realm.add(city.forecast)
+            realm.add(city.weather)
         }
     }
 }
@@ -61,13 +70,13 @@ extension CityDetailedForecastViewController : UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! WeatherTableViewCell
         
-        cell.setupCell(with: selectedCity.weather[indexPath.row])
+        cell.setupCell(with: selectedCity.forecast[indexPath.row])
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return selectedCity.weather.count
+        return selectedCity.forecast.count
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -11,6 +11,7 @@ import UIKit
 class HomeCitiesTableViewCell: UITableViewCell {
 
     @IBOutlet weak var labelCityName: UILabel!
+    @IBOutlet weak var tempDegree: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -24,5 +25,6 @@ class HomeCitiesTableViewCell: UITableViewCell {
 
     func setCellWithCity(city : City) {
         labelCityName.text = city.cityName
+        tempDegree.text = "temp: \(city.weather.maxDegree)"
     }
 }

@@ -7,19 +7,31 @@
 //
 
 import UIKit
+import RealmSwift
+import Realm
 
-class Weather: NSObject {
+class Weather: Object {
 
-    var date : String?
-    var minDegree = 0.0
-    var maxDegree = 0.0
-    var weatherDescription = ""
+    @objc dynamic var date : String?
+    @objc dynamic var minDegree = 0.0
+    @objc dynamic var maxDegree = 0.0
+    @objc dynamic var weatherDescription = ""
+    @objc dynamic var cityID = 0
     
-    override init() {
+    required init() {
         super.init()
     }
     
+    required init(value: Any, schema: RLMSchema) {
+        super.init(value: value, schema: schema)
+    }
+    
+    required init(realm: RLMRealm, schema: RLMObjectSchema) {
+        super.init(realm: realm, schema: schema)
+    }
+    
     init(with json : [String : Any]) {
+        super.init()
         date = json["dt_txt"] as? String
         if date != nil {
             let dateFormatter = DateFormatter()
@@ -38,5 +50,8 @@ class Weather: NSObject {
         maxDegree = (maxDegree - 273.15)
         let weather = json["weather"] as! [[String : Any]]
         weatherDescription = weather[0]["description"] as! String
+        if json["id"] != nil {
+            cityID = json["id"] as! Int
+        }
     }
 }

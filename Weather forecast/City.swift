@@ -32,7 +32,8 @@ class City: Object {
         var lat : Double = 0.0
     }
     var cityCoord : Coord = Coord(lon: 0, lat: 0)
-    var weather = [Weather]()
+    var forecast = [Weather]()
+    var weather = Weather()
     
     required init() {
         super.init()
@@ -62,7 +63,7 @@ class City: Object {
     
     func filterWeather() {
         var tempWeather = [Weather]()
-        for weath in weather {
+        for weath in forecast {
             if !tempWeather.contains(weath) {
                 var distnct = true
                 for tempWeath in tempWeather {
@@ -75,6 +76,6 @@ class City: Object {
                 }
             }
         }
-        weather = tempWeather
+        forecast = tempWeather
     }
 }
