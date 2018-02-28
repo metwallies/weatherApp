@@ -109,22 +109,27 @@ extension HomeViewController : CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-                switch CLLocationManager.authorizationStatus() {
+        if CLLocationManager.locationServicesEnabled() {
+            switch CLLocationManager.authorizationStatus() {
                 case .authorizedAlways:
                     locationManager.startUpdatingLocation()
                     break
                 case .authorizedWhenInUse :
                     locationManager.startUpdatingLocation()
                     break
-                default:
+                case .denied :
                     let london = City()
                     london.cityID =  2643741
                     london.cityName = "City of London"
                     london.cityCountry = "GB"
                     userCity = london
                     requestWeather(cityID: londonID)
+                break
+                default:
+                    
                     break
-                }
+            }
+        }
     }
 }
 
