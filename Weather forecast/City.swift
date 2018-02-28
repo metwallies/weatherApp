@@ -69,6 +69,12 @@ class City: Object {
                 for tempWeath in tempWeather {
                     if tempWeath.date == weath.date {
                         distnct = false
+                        if tempWeath.maxDegree < weath.maxDegree {
+                            tempWeath.maxDegree = weath.maxDegree
+                        }
+                        if tempWeath.minDegree > weath.minDegree {
+                            tempWeath.minDegree = weath.minDegree
+                        }
                     }
                 }
                 if distnct {

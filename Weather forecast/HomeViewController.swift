@@ -84,11 +84,7 @@ class HomeViewController: UIViewController {
             let weather = Weather(with: weatherJson)
             self.userCity.weather = weather
             self.arrayFavoriteCities.append(self.userCity)
-            let realm = try! Realm()
-            try! realm.write {
-                realm.add(self.userCity)
-                realm.add(weather)
-            }
+            
             self.tableViewFavoriteCities.reloadData()
         }) {[unowned self] (error) in
             self.showError(message: error)
