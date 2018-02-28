@@ -186,7 +186,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource, CityDe
         if tableView == tableViewSearchCities {
             detailsVC.selectedCity = arraySearchCities[indexPath.row]
             for tempCity in arrayFavoriteCities {
-                if arraySearchCities[indexPath.row].cityID == tempCity.cityID {
+                if arraySearchCities[indexPath.row].cityID == tempCity.cityID || arrayFavoriteCities.count >= 5{
                     detailsVC.isCityFavored = true
                 }
             }
@@ -196,6 +196,32 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource, CityDe
             detailsVC.isCityFavored = true
         }
         self.show(detailsVC, sender: self)
+    }
+    
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if tableView == tableViewFavoriteCities {
+            return true
+        }
+        return false
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            let deletedCity = arrayFavoriteCities[indexPath.row]
+            arrayFavoriteCities.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            let realm = try! Realm()
+            let citiesFromRealm = realm.objects(City.self)
+            let weatherFromRealm = realm.objects(Weather.self)
+            let cityToBeDeleted = citiesFromRealm.filter("cityID == %i", deletedCity.cityID)
+            
+            let weatherToBeDeleted = weatherFromRealm.filter("cityID == %i", deletedCity.cityID)
+            try! realm.write {
+                realm.delete(cityToBeDeleted)
+                realm.delete(weatherToBeDeleted)
+            }
+        }
     }
     
     func didAddCityToFavorites(_ city: City) {

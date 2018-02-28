@@ -70,6 +70,7 @@ class CityDetailedForecastViewController: UIViewController {
         if delegate != nil {
             delegate?.didAddCityToFavorites(selectedCity)
         }
+        addToFavoritesButton.isHidden = true
     }
 }
 
