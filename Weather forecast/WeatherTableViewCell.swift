@@ -29,8 +29,8 @@ class WeatherTableViewCell: UITableViewCell {
         waetherDescriptionLabel.text = weather.weatherDescription
         let maxDegree = String(format: "%.02f", weather.maxDegree)
         let minDegree = String(format: "%.02f", weather.minDegree)
-        maxDegreeLabel.text = "max: \(maxDegree)"
-        minDegreeLabel.text = "min: \(minDegree)"
+        maxDegreeLabel.text = "max: \(maxDegree) C˚"
+        minDegreeLabel.text = "min: \(minDegree) C˚"
         dateLabel.text = weather.date
     }
 }

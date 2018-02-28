@@ -16,6 +16,6 @@ extension UIViewController {
             , preferredStyle: .alert)
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         alert.addAction(cancel)
-        self.show(alert, sender: self)
+        self.showDetailViewController(alert, sender: self)
     }
 }

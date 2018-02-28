@@ -43,7 +43,7 @@ class HomeViewController: UIViewController {
         
         for city in realmCity {
             var weatherFound = false
-            for weather in realmForecast {
+            for var weather in realmForecast {
                 if weather.cityID == city.cityID {
                     if weather.date != nil {
                         city.forecast.append(weather)
@@ -51,22 +51,20 @@ class HomeViewController: UIViewController {
                     else {
                         city.weather = weather
                         weatherFound = true
+                        CityManager.getWeatherFor(cityID: city.cityID, isWeather: true, success: { (json) in
+                            city.weather = Weather(with: json[0])
+                            weather = city.weather
+                            if !weatherFound {
+                                self.arrayFavoriteCities.append(city)
+                                self.tableViewFavoriteCities.reloadData()
+                            }
+                        }, failure: { (error) in
+                            self.showError(message: error)
+                        })
                         arrayFavoriteCities.append(city)
                     }
                 }
             }
-            CityManager.getWeatherFor(cityID: city.cityID, isWeather: true, success: { (json) in
-                city.weather = Weather(with: json[0])
-                try! realm.write {
-                    realm.add(city.weather)
-                }
-                if !weatherFound {
-                    self.arrayFavoriteCities.append(city)
-                    self.tableViewFavoriteCities.reloadData()
-                }
-            }, failure: { (error) in
-                self.showError(message: error)
-            })
         }
         tableViewFavoriteCities.reloadData()
     }
@@ -143,10 +141,13 @@ extension HomeViewController: UISearchBarDelegate {
             }
         }
         else if searchText == "" {
-            tableViewSearchCities.isHidden = true
-            searchBar.resignFirstResponder()
-            arraySearchCities.removeAll()
-            tableViewSearchCities.reloadData()
+            DispatchQueue.main.async {
+                self.tableViewSearchCities.isHidden = true
+                self.view.endEditing(true)
+                self.arraySearchCities.removeAll()
+                self.tableViewSearchCities.reloadData()
+            }
+            
         }
     }
     

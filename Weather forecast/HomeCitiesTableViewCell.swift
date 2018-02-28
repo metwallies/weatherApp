@@ -25,6 +25,7 @@ class HomeCitiesTableViewCell: UITableViewCell {
 
     func setCellWithCity(city : City) {
         labelCityName.text = city.cityName
-        tempDegree.text = "temp: \(city.weather.maxDegree)"
+        let maxDegree = String(format: "%.02f", city.weather.maxDegree)
+        tempDegree.text = "temp: \(maxDegree) C˚"
     }
 }
