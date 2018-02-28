@@ -55,18 +55,18 @@ class HomeViewController: UIViewController {
                     }
                 }
             }
-            if !weatherFound {
-                CityManager.getWeatherFor(cityID: city.cityID, isWeather: true, success: { (json) in
-                    city.weather = Weather(with: json[0])
-                    try! realm.write {
-                        realm.add(city.weather)
-                    }
+            CityManager.getWeatherFor(cityID: city.cityID, isWeather: true, success: { (json) in
+                city.weather = Weather(with: json[0])
+                try! realm.write {
+                    realm.add(city.weather)
+                }
+                if !weatherFound {
                     self.arrayFavoriteCities.append(city)
                     self.tableViewFavoriteCities.reloadData()
-                }, failure: { (error) in
-                    self.showError(message: error)
-                })
-            }
+                }
+            }, failure: { (error) in
+                self.showError(message: error)
+            })
         }
         tableViewFavoriteCities.reloadData()
     }
@@ -197,8 +197,18 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource, CityDe
     }
     
     func didAddCityToFavorites(_ city: City) {
-        arrayFavoriteCities.append(city)
-        tableViewFavoriteCities.reloadData()
+        CityManager.getWeatherFor(cityID: city.cityID, isWeather: true, success: { (json) in
+            
+            let realm = try! Realm()
+            city.weather = Weather(with: json[0])
+            try! realm.write {
+                realm.add(city.weather)
+            }
+            self.arrayFavoriteCities.append(city)
+            self.tableViewFavoriteCities.reloadData()
+        }) { (error) in
+            self.showError(message: error)
+        }
     }
 }
 
